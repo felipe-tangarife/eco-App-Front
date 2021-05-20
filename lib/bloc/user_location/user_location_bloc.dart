@@ -35,7 +35,6 @@ class UserLocationBloc extends Bloc<UserLocationEvent, UserLocationState> {
   Stream<UserLocationState> mapEventToState( UserLocationEvent event ) async* {
     
     if ( event is OnPositionChange ) {
-      print(event);
       yield state.copyWith(
         existsLocation: true,
         location: event.position

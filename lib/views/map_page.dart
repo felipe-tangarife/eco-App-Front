@@ -1,4 +1,6 @@
+import 'package:eco_app3/bloc/map/map_bloc.dart';
 import 'package:eco_app3/bloc/user_location/user_location_bloc.dart';
+import 'package:eco_app3/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,17 +33,32 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: BlocBuilder<UserLocationBloc, UserLocationState>(
-        builder: ( _ , state)  => createMap( state )
+      body: Stack(
+        children: [
+
+          BlocBuilder<UserLocationBloc, UserLocationState>(
+              builder: ( _ , state)  => createMap( state )
+          ),
+
+          Positioned(
+              top: 15,
+              child: SearchBar()
+          ),
+
+          ManualMark(),
+
+        ],
       ),
 
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        // children: [
-        //
-        //   BtnUbicacion(),
-        //
-        // ],
+        children: [
+
+          BtnLocation(),
+          BtnFollowLocation(),
+          BtnMyRoute()
+
+        ],
       ),
    );
 
@@ -51,19 +68,33 @@ class _MapPageState extends State<MapPage> {
 
     if ( !state.existsLocation ) return Center(child: Text('Ubicando...'));
 
-    // final mapaBloc = BlocProvider.of<MapaBloc>(context);
-
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    mapBloc.add( OnNewLocation( state.location ) );
     final cameraPosition = new CameraPosition(
       target: state.location,
       zoom: 15
     );
 
-    return GoogleMap(
-      initialCameraPosition: cameraPosition,
-      myLocationEnabled: true,
-      myLocationButtonEnabled: true,
-      zoomControlsEnabled: false,
+    return BlocBuilder<MapBloc, MapState>(
+      builder: (context, _ ) {
+        return GoogleMap(
+          initialCameraPosition: cameraPosition,
+          myLocationEnabled: true,
+          myLocationButtonEnabled: false,
+          zoomControlsEnabled: false,
+          onMapCreated: mapBloc.initMap,
+          polylines: mapBloc.state.polylines.values.toSet(),
+          markers: mapBloc.state.markers.values.toSet(),
+          onCameraMove: ( cameraPosition ) {
+            // cameraPosition.target = LatLng central del mapa
+            mapBloc.add( OnMovedMap( cameraPosition.target ));
+          },
+        );
+      },
     );
+
+
+
 
   }
 

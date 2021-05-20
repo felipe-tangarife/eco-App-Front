@@ -81,7 +81,6 @@ class _AccessGpsPageState extends State<AccessGpsPage> with WidgetsBindingObserv
         openAppSettings();
         break;
       case PermissionStatus.limited:
-        // TODO: Handle this case.
         break;
     }
     

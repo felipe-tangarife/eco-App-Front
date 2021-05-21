@@ -3,6 +3,7 @@ import 'package:eco_app3/bloc/search/search_bloc.dart';
 import 'package:eco_app3/bloc/user_location/user_location_bloc.dart';
 import 'package:eco_app3/views/access_gps_page.dart';
 import 'package:eco_app3/views/loading_page.dart';
+import 'package:eco_app3/views/login.dart';
 import 'package:eco_app3/views/map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,13 +23,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: ( _ ) => SearchBloc() ),
       ],
       child: MaterialApp(
-        title: 'Material App',
+        title: 'Eco App',
         debugShowCheckedModeBanner: false,
-        home: LoadingPage(),
+        home: LoginPage(),
         routes: {
           'map'      : ( _ ) => MapPage(),
           'loading'   : ( _ ) => LoadingPage(),
           'access_gps': ( _ ) => AccessGpsPage(),
+          'login': ( _ ) => LoginPage(),
         },
       ),
     );

@@ -7,7 +7,7 @@ Future<BitmapDescriptor> getAssetImageMarker() async {
     ImageConfiguration(
       devicePixelRatio: 2.5
     ), 
-    'assets/custom-pin.png'
+    'assets/icons/custom-pin.png'
   );
 }
 

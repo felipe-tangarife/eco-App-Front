@@ -70,9 +70,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Styles.PRIMARY_COLOR,
-        title: Center(
-          child: Text("Eco App"),
-        ),
+        centerTitle: true,
+        title: Text("Eco App"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -130,11 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 onPressed: () {
                                   _btnController.stop();
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => RegisterPage()),
-                                  // );
+                                  Navigator.pushNamed(context, 'register');
                                 }),
                           ],
                         )

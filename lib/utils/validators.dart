@@ -4,6 +4,14 @@ String validateText(String text) {
   return null;
 }
 
+String validateLicensePlate(String text) {
+  if (text.isEmpty)
+    return "Campo requerido";
+  if (text.length < 7)
+    return "La matrícula debe tener mínimo 6 caracteres";
+  return null;
+}
+
 String validatePassword(String password) {
   RegExp hasUpper = RegExp(r'[A-Z]');
   RegExp hasLower = RegExp(r'[a-z]');

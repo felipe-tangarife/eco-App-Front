@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:eco_app3/constants/colors.dart';
 
+import 'list_item.dart';
+
 InputDecoration _buildTextDecoration(
     String labelText, IconData icon, bool required) {
   return InputDecoration(
@@ -23,7 +25,7 @@ InputDecoration _buildPasswordDecoration(
   return InputDecoration(
     prefixIcon: icon != null ? Icon(icon, color: Colors.grey) : null,
     suffixIcon: suffixIcon,
-    labelText: required ? labelText + ' *' : labelText,
+    labelText: required ? labelText + '*' : labelText,
     labelStyle: TextStyle(color: Styles.THIRD_COLOR),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Styles.THIRD_COLOR),
@@ -45,6 +47,22 @@ Widget textFormCapitalize(
         controller: controller,
         autofocus: false,
         textCapitalization: TextCapitalization.sentences,
+        validator: validator,
+        decoration: _buildTextDecoration(labelText, icon, required)),
+  );
+}
+
+Widget textFormUppercase(
+    context, icon, labelText, validator, controller, required) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(50)),
+    ),
+    child: TextFormField(
+        controller: controller,
+        autofocus: false,
+        textCapitalization: TextCapitalization.characters,
         validator: validator,
         decoration: _buildTextDecoration(labelText, icon, required)),
   );
@@ -91,6 +109,42 @@ Widget textFormPassword(context, icon, labelText, validator, controller,
       ),
     ),
   );
+}
+
+Widget dropDownButtonForm(labelText, selectedItem, items, onPressed) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(50)),
+      border: Border.all(color: Colors.grey),
+    ),
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+      child: Row(
+        children: [
+          Text("$labelText: "),
+          SizedBox(width: 5,),
+          DropdownButton<ListItem>(
+              value: selectedItem,
+              items: items,
+              onChanged: onPressed),
+        ],
+      ),
+    ),
+  );
+}
+
+List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
+  List<DropdownMenuItem<ListItem>> items = [];
+  for (ListItem listItem in listItems) {
+    items.add(
+      DropdownMenuItem(
+        child: Text(listItem.name),
+        value: listItem,
+      ),
+    );
+  }
+  return items;
 }
 
 RoundedLoadingButton loadingButton(
